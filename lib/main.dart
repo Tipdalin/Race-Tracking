@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:race_tracking/Screens/homepage.dart';
+import 'screens/homepage.dart';
+import 'screens/race_setup.dart';
+import 'screens/add_participant.dart';
+//import 'screens/edit_participant.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,14 +11,17 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Race Tracking App',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const MyHomePage(),
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const MyHomePage(),
+        '/race-setup': (context) => const RaceSetupScreen(),
+        '/add-participant': (context) => const AddParticipantScreen(),
+      },
     );
   }
 }
