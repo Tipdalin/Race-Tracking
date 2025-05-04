@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:race_tracking/Screens/race_setup.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -32,6 +33,28 @@ class MyHomePage extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
               const SizedBox(height: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 50,
+                    vertical: 20,
+                  ),
+                  textStyle: const TextStyle(
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RaceSetupScreen(),
+                    ),
+                  );
+                },
+                child: const Text('Get Started'),
+              ),
             ],
           ),
         ),

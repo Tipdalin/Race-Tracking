@@ -1,0 +1,228 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "agritech_pioneers",
+            "cwd": "Users\\Dell\\Desktop\\agritech_pioneers",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "agritech_pioneers (profile mode)",
+            "cwd": "Users\\Dell\\Desktop\\agritech_pioneers",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "agritech_pioneers (release mode)",
+            "cwd": "Users\\Dell\\Desktop\\agritech_pioneers",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "GEN-09-FLUTTER-2-BLA-W7-START",
+            "cwd": "Users\\Dell\\Desktop\\GEN-09-FLUTTER-2-BLA-W7-START",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "GEN-09-FLUTTER-2-BLA-W7-START (profile mode)",
+            "cwd": "Users\\Dell\\Desktop\\GEN-09-FLUTTER-2-BLA-W7-START",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "GEN-09-FLUTTER-2-BLA-W7-START (release mode)",
+            "cwd": "Users\\Dell\\Desktop\\GEN-09-FLUTTER-2-BLA-W7-START",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "Project",
+            "cwd": "Users\\Dell\\Desktop\\Project",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "Project (profile mode)",
+            "cwd": "Users\\Dell\\Desktop\\Project",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "Project (release mode)",
+            "cwd": "Users\\Dell\\Desktop\\Project",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "week5",
+            "cwd": "Users\\Dell\\Desktop\\week5",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "week5 (profile mode)",
+            "cwd": "Users\\Dell\\Desktop\\week5",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "week5 (release mode)",
+            "cwd": "Users\\Dell\\Desktop\\week5",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "week6",
+            "cwd": "Users\\Dell\\Desktop\\week6",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "week6 (profile mode)",
+            "cwd": "Users\\Dell\\Desktop\\week6",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "week6 (release mode)",
+            "cwd": "Users\\Dell\\Desktop\\week6",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "fruit_crud_app",
+            "cwd": "Users\\Dell\\Documents\\fruit_crud_app",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "fruit_crud_app (profile mode)",
+            "cwd": "Users\\Dell\\Documents\\fruit_crud_app",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "fruit_crud_app (release mode)",
+            "cwd": "Users\\Dell\\Documents\\fruit_crud_app",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "Race-Tracking",
+            "cwd": "Users\\Dell\\Documents\\Race-Tracking",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "Race-Tracking (profile mode)",
+            "cwd": "Users\\Dell\\Documents\\Race-Tracking",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "Race-Tracking (release mode)",
+            "cwd": "Users\\Dell\\Documents\\Race-Tracking",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "week7",
+            "cwd": "Users\\Dell\\Documents\\week7",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "week7 (profile mode)",
+            "cwd": "Users\\Dell\\Documents\\week7",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "week7 (release mode)",
+            "cwd": "Users\\Dell\\Documents\\week7",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "1 - START CODE",
+            "cwd": "Users\\Dell\\Downloads\\1 - START CODE",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "1 - START CODE (profile mode)",
+            "cwd": "Users\\Dell\\Downloads\\1 - START CODE",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "1 - START CODE (release mode)",
+            "cwd": "Users\\Dell\\Downloads\\1 - START CODE",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "agritech_pioneers",
+            "cwd": "Users\\Dell\\flutter_laravel\\agritech_pioneers",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "agritech_pioneers (profile mode)",
+            "cwd": "Users\\Dell\\flutter_laravel\\agritech_pioneers",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "agritech_pioneers (release mode)",
+            "cwd": "Users\\Dell\\flutter_laravel\\agritech_pioneers",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "login_farmer",
+            "cwd": "xampp\\htdocs\\capstone\\login_farmer",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "login_farmer (profile mode)",
+            "cwd": "xampp\\htdocs\\capstone\\login_farmer",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "login_farmer (release mode)",
+            "cwd": "xampp\\htdocs\\capstone\\login_farmer",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
