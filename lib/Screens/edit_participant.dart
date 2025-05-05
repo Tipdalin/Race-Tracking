@@ -33,8 +33,11 @@ class _EditParticipantScreenState extends State<EditParticipantScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Edit participants"),
-        leading: const BackButton(),
+        title: const Text("Edit Participant"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
         backgroundColor: Colors.grey[300],
         centerTitle: true,
       ),
@@ -75,12 +78,28 @@ class _EditParticipantScreenState extends State<EditParticipantScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context); // Normally would update list
+                // Validate inputs
+                if (nameController.text.isEmpty || ageController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please fill all fields'))
+                  );
+                  return;
+                }
+                
+                // Return the updated participant data
+                final updatedParticipant = {
+                  'name': nameController.text,
+                  'age': ageController.text,
+                  'gender': gender,
+                };
+                
+                Navigator.pop(context, updatedParticipant);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey[300],
+                minimumSize: const Size(double.infinity, 50),
               ),
-              child: const Text("Edit", style: TextStyle(color: Colors.black)),
+              child: const Text("Save Changes", style: TextStyle(color: Colors.black)),
             ),
           ],
         ),

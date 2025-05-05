@@ -24,9 +24,9 @@ class MyHomePage extends StatelessWidget {
               Image.asset('assets/1.2.png', width: 300, height: 300),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () => Navigator.pushNamed(context, '/race-setup'),
+                onPressed: () => Navigator.pushNamed(context, '/dashboard'),
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[800]),
-                child: const Text('Go to Race Setup', style: TextStyle(color: Colors.white)),
+                child: const Text('Go to Dashboard', style: TextStyle(color: Colors.white)),
               ),
             ],
           ),
