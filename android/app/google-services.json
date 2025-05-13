@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "250867623840",
+    "project_id": "race-tracking-app-883cd",
+    "storage_bucket": "race-tracking-app-883cd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250867623840:android:9f9469ecf7439aa120e6c5",
+        "android_client_info": {
+          "package_name": "com.example.race_tracking"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQBPmWQpZ10XTB4jH1Fbv27TNhliRe5LQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250867623840:android:2f0404e922dd951120e6c5",
+        "android_client_info": {
+          "package_name": "com.example.race_tracking_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQBPmWQpZ10XTB4jH1Fbv27TNhliRe5LQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
