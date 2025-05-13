@@ -1,4 +1,4 @@
-// screens/dashboard/dashboard_screen.dart - Enhanced with better error handling
+// screens/dashboard/dashboard_screen.dart - Simplified without authentication
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/race_provider.dart';
@@ -179,7 +179,7 @@ class _RacesTab extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               isPermissionError
-                  ? 'Authentication is required to access race data.'
+                  ? 'Please check your Firestore security rules.'
                   : 'Unable to load races from the server.',
               style: const TextStyle(color: Colors.grey),
               textAlign: TextAlign.center,
@@ -198,20 +198,6 @@ class _RacesTab extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            if (isPermissionError) ...[
-              ElevatedButton.icon(
-                onPressed: () async {
-                  // Try to authenticate and then refresh
-                  final success = await raceProvider.retryAuthentication();
-                  if (success) {
-                    await raceProvider.refreshAfterAuth();
-                  }
-                },
-                icon: const Icon(Icons.login),
-                label: const Text('Login and Retry'),
-              ),
-              const SizedBox(height: 8),
-            ],
             OutlinedButton.icon(
               onPressed: () {
                 // Simple retry
@@ -240,7 +226,32 @@ class _RacesTab extends StatelessWidget {
       builder:
           (context) => AlertDialog(
             title: const Text('Error Details'),
-            content: SingleChildScrollView(child: Text(error)),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Error message:',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(error),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Common solutions:',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    '1. Make sure your Firestore rules allow read/write access',
+                  ),
+                  const Text('2. Check your Firebase project configuration'),
+                  const Text('3. Ensure internet connectivity'),
+                  const Text('4. Try refreshing the page'),
+                ],
+              ),
+            ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
@@ -395,6 +406,15 @@ class _RaceCard extends StatelessWidget {
           messenger.showSnackBar(
             SnackBar(content: Text('${race.name} started!')),
           );
+        } else {
+          messenger.showSnackBar(
+            SnackBar(
+              content: Text(
+                'Failed to start ${race.name}. ${raceProvider.error}',
+              ),
+              backgroundColor: Colors.red,
+            ),
+          );
         }
         break;
       case 'track':
@@ -410,6 +430,15 @@ class _RaceCard extends StatelessWidget {
         if (success) {
           messenger.showSnackBar(
             SnackBar(content: Text('${race.name} finished!')),
+          );
+        } else {
+          messenger.showSnackBar(
+            SnackBar(
+              content: Text(
+                'Failed to finish ${race.name}. ${raceProvider.error}',
+              ),
+              backgroundColor: Colors.red,
+            ),
           );
         }
         break;
@@ -450,6 +479,15 @@ class _RaceCard extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('${race.name} reset!')),
                     );
+                  } else if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Failed to reset ${race.name}. ${raceProvider.error}',
+                        ),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
                   }
                 },
                 child: const Text('Reset'),
@@ -478,6 +516,15 @@ class _RaceCard extends StatelessWidget {
                   if (success && context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('${race.name} deleted!')),
+                    );
+                  } else if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Failed to delete ${race.name}. ${raceProvider.error}',
+                        ),
+                        backgroundColor: Colors.red,
+                      ),
                     );
                   }
                 },
