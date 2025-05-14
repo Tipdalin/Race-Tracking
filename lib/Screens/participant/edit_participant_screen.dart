@@ -98,7 +98,22 @@ class _EditParticipantScreenState extends State<EditParticipantScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Edit Participant'), centerTitle: true),
+            backgroundColor: Colors.blue[100],
+
+      resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
+          'Edit Participant',
+          style: TextStyle(color: Colors.white, fontSize: 24),
+        ),
+        centerTitle: true,
+      ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(

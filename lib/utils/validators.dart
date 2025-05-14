@@ -42,8 +42,8 @@ class Validators {
     if (age == null) {
       return 'Enter a valid age';
     }
-    if (age < 1 || age > 150) {
-      return 'Age must be between 1 and 150';
+    if (age < 1 || age > 100) {
+      return 'Age must be between 1 and 100';
     }
     return null;
   }

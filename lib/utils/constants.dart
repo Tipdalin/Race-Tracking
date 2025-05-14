@@ -20,12 +20,12 @@ class AppConstants {
   // Default segments
   static const Map<String, List<Map<String, dynamic>>> defaultSegments = {
     triathlon: [
-      {'name': swim, 'distance': '1000m', 'order': 1},
-      {'name': cycle, 'distance': '20km', 'order': 2},
+      {'name': swim, 'distance': '100m', 'order': 1},
+      {'name': cycle, 'distance': '10km', 'order': 2},
       {'name': run, 'distance': '5km', 'order': 3},
     ],
     aquathlon: [
-      {'name': swim, 'distance': '1000m', 'order': 1},
+      {'name': swim, 'distance': '100m', 'order': 1},
       {'name': run, 'distance': '5km', 'order': 2},
     ],
     runAndBike: [

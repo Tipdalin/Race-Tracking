@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/race_provider.dart';
-import '../../providers/participant_provider.dart';
+//import '../../providers/participant_provider.dart';
 import '../../widgets/shared/loading_widget.dart';
 import '../../models/race.dart';
 import '../race/add_race_screen.dart';
@@ -42,12 +42,23 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue[100],
       appBar: AppBar(
-        title: const Text('Race Tracking Dashboard'),
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
+          'Race Tracking Dashboard',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.add),
+            icon: const Icon(Icons.add, color: Colors.white),
+            tooltip: 'Add New',
             onPressed: () => _showAddDialog(context),
           ),
         ],

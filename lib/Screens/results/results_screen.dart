@@ -43,11 +43,22 @@ class _ResultsScreenState extends State<ResultsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue[100],
       appBar: AppBar(
-        title: Text('Results - ${widget.race.name}'),
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          'Results - ${widget.race.name}',
+          style: const TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         actions: [
           PopupMenuButton<String>(
+            iconColor: Colors.white,
             onSelected: _handleMenuSelection,
             itemBuilder:
                 (context) => [
@@ -379,11 +390,11 @@ class _ResultsScreenState extends State<ResultsScreen> {
   Color _getPositionColor(int position) {
     switch (position) {
       case 1:
-        return Colors.amber[600]!; // Gold
+        return const Color.fromARGB(255, 255, 179, 0)!; // Gold
       case 2:
-        return Colors.grey[600]!; // Silver
+        return const Color.fromARGB(255, 255, 0, 0)!; // Silver
       case 3:
-        return Colors.orange[800]!; // Bronze
+        return const Color.fromARGB(255, 93, 189, 10)!; // Bronze
       default:
         return Theme.of(context).primaryColor;
     }

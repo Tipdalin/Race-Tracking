@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
+//import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:race_tracking/Screens/homepage.dart';
 
 // Import your generated Firebase options
 import 'firebase_options.dart';
-
 // Import providers
 import 'providers/race_provider.dart';
 import 'providers/participant_provider.dart';
@@ -131,8 +131,9 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         debugShowCheckedModeBanner: false,
-        home: const DashboardScreen(),
+        home: MyHomePage(),
         routes: {
+          '/homepage': (context) => const MyHomePage(),
           '/dashboard': (context) => const DashboardScreen(),
           '/add-race': (context) => const AddRaceScreen(),
           '/add-participant': (context) => const AddParticipantScreen(),

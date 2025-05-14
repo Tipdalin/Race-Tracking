@@ -1,7 +1,7 @@
 // screens/time_tracking/time_tracking_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../providers/race_provider.dart';
+//import '../../providers/race_provider.dart';
 import '../../providers/participant_provider.dart';
 import '../../providers/segment_time_provider.dart';
 import '../../models/race.dart';
@@ -121,8 +121,20 @@ class _TimeTrackingScreenState extends State<TimeTrackingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+            backgroundColor: Colors.blue[100],
+
       appBar: AppBar(
-        title: Text('Track Times - ${widget.race.name}'),
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text('Track Times - ${widget.race.name}',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+        ),),
         centerTitle: true,
       ),
       body: Column(

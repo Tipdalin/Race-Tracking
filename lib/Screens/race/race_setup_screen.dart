@@ -64,7 +64,14 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
     if (success && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${widget.race.name} started!'),
+          content: Text(
+            '${widget.race.name} started!',
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
           backgroundColor: Colors.green,
         ),
       );
@@ -114,8 +121,23 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue[100],
+
       appBar: AppBar(
-        title: Text('Setup - ${widget.race.name}'),
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          'Setup - ${widget.race.name}',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
       ),
       body: Consumer<RaceProvider>(
