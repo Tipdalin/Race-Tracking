@@ -1,4 +1,3 @@
-// screens/race/add_race_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/race_provider.dart';
@@ -80,7 +79,7 @@ class _AddRaceScreenState extends State<AddRaceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            backgroundColor: Colors.blue[100],
+      backgroundColor: Colors.blue[100],
 
       appBar: AppBar(
         backgroundColor: Colors.blue,

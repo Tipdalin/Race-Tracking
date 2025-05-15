@@ -1,4 +1,3 @@
-// screens/participant/edit_participant_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/participant_provider.dart';
@@ -98,7 +97,7 @@ class _EditParticipantScreenState extends State<EditParticipantScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            backgroundColor: Colors.blue[100],
+      backgroundColor: Colors.blue[100],
 
       resizeToAvoidBottomInset: true,
       appBar: AppBar(

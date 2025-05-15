@@ -1,4 +1,3 @@
-// repositories/firebase_repositories/firebase_participant_repository.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../abstract_repositories/participant_repository.dart';
 import '../../models/participant.dart';
