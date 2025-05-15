@@ -1,4 +1,3 @@
-// models/segment_time.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SegmentTime {

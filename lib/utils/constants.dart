@@ -1,4 +1,3 @@
-// utils/constants.dart
 class AppConstants {
   // Race types
   static const String triathlon = 'triathlon';

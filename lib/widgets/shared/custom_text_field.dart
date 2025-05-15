@@ -1,4 +1,3 @@
-// widgets/shared/custom_text_field.dart
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {

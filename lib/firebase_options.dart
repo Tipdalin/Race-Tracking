@@ -1,4 +1,3 @@
-// lib/firebase_options.dart
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
@@ -74,5 +73,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'race-tracking-app-883cd.firebasestorage.app',
     measurementId: 'G-E7KKJM1Q4Z',
   );
-
 }

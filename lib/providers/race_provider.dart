@@ -1,4 +1,3 @@
-// providers/race_provider.dart - Simplified without authentication
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../models/race.dart';

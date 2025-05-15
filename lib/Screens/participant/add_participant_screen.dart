@@ -98,8 +98,7 @@ class _AddParticipantScreenState extends State<AddParticipantScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            backgroundColor: Colors.blue[100],
-
+      backgroundColor: Colors.blue[100],
       appBar: AppBar(
         backgroundColor: Colors.blue,
         leading: IconButton(
@@ -224,12 +223,34 @@ class _AddParticipantScreenState extends State<AddParticipantScreen> {
               // Add Button
               Consumer<ParticipantProvider>(
                 builder: (context, participantProvider, child) {
-                  return CustomButton(
-                    text: 'Add Participant',
-                    onPressed:
-                        participantProvider.isLoading ? null : _addParticipant,
-                    isLoading: participantProvider.isLoading,
-                    icon: Icons.person_add,
+                  return Center(
+                    child: SizedBox(
+                      width: 250,
+                      height: 50,
+                      child: CustomButton(
+                        text: 'Add Participant',
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            Colors.blue,
+                          ),
+                          foregroundColor: MaterialStateProperty.all(
+                            Colors.white,
+                          ),
+                          textStyle: MaterialStateProperty.all(
+                            const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        onPressed:
+                            participantProvider.isLoading
+                                ? null
+                                : _addParticipant,
+                        isLoading: participantProvider.isLoading,
+                        icon: Icons.person_add,
+                      ),
+                    ),
                   );
                 },
               ),
@@ -266,6 +287,7 @@ class _AddParticipantScreenState extends State<AddParticipantScreen> {
         }
 
         return Card(
+          color: Colors.blue[100],
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(

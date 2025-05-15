@@ -1,4 +1,3 @@
-// models/race.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum RaceStatus { notStarted, inProgress, finished }

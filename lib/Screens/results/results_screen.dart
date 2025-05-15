@@ -1,4 +1,3 @@
-// screens/results/results_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/participant_provider.dart';
@@ -111,7 +110,8 @@ class _ResultsScreenState extends State<ResultsScreen> {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
-      color: Theme.of(context).primaryColor.withOpacity(0.1),
+      //color: Theme.of(context).primaryColor.withOpacity(0.1),
+      color: Colors.blue[100],
       child: Column(
         children: [
           Text(
@@ -127,6 +127,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
           Chip(
             label: Text(widget.race.statusString),
             backgroundColor: _getStatusColor(widget.race.status),
+            // color: MaterialStateProperty.all(Colors.blue[100]),
           ),
         ],
       ),
@@ -136,7 +137,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
   Widget _buildResultsHeader() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      color: Colors.grey[100],
+      color: Colors.blue[100],
       child: Row(
         children: [
           const Text(
