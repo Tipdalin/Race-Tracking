@@ -178,6 +178,7 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
       padding: const EdgeInsets.all(16),
       color: Theme.of(context).primaryColor.withOpacity(0.1),
       child: Column(
+        
         children: [
           Text(
             race.name,
@@ -186,7 +187,7 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
           const SizedBox(height: 8),
           Text(
             race.type.toUpperCase(),
-            style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+            style: TextStyle(fontSize: 16, color: Colors.white),
           ),
           const SizedBox(height: 8),
           Chip(
@@ -291,7 +292,7 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            color: Colors.grey[100],
+            color: Colors.blue[100],
             child: const Text(
               'Participants',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
