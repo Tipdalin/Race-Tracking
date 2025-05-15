@@ -1,4 +1,3 @@
-// repositories/abstract_repositories/participant_repository.dart
 import '../../models/participant.dart';
 
 abstract class ParticipantRepository {

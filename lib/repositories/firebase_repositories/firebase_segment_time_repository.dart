@@ -1,4 +1,3 @@
-// repositories/firebase_repositories/firebase_segment_time_repository.dart - No Auth
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../abstract_repositories/segment_time_repository.dart';
 import '../../models/segment_time.dart';

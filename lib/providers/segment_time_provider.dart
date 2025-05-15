@@ -1,4 +1,3 @@
-// providers/segment_time_provider.dart
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../models/segment_time.dart';
