@@ -178,7 +178,6 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
       padding: const EdgeInsets.all(16),
       color: Colors.blue[100],
       child: Column(
-        
         children: [
           Text(
             race.name,
@@ -289,59 +288,61 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
     return Expanded(
       child: Column(
         children: [
-<<<<<<< HEAD
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            color: Colors.blue[100],
-            child: const Text(
-              'Participants',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-=======
-          Consumer<ParticipantProvider>(
-            builder: (context, participantProvider, child) {
-              final participantCount = participantProvider.participants.length;
-              return Container(
+          Column(
+            children: [
+              Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 8,
                 ),
                 color: Colors.blue[100],
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Participants',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+              ),
+              Consumer<ParticipantProvider>(
+                builder: (context, participantProvider, child) {
+                  final participantCount =
+                      participantProvider.participants.length;
+                  return Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        'Total: $participantCount',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                    color: Colors.blue[100],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Participants',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            'Total: $participantCount',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            },
->>>>>>> efa36bdeebcd52bec15a42c1bfb0b7e3b9f8eea0
+                  );
+                },
+              ),
+            ],
           ),
           Expanded(child: _buildParticipantsList()),
         ],

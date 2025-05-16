@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["debugshow"]
+  "cSpell.words": ["debugshow"],
+  "cmake.ignoreCMakeListsMissing": true
 }
