@@ -41,7 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[150],
+      backgroundColor: Colors.blue[100],
       appBar: AppBar(
         backgroundColor: Colors.blue,
         leading: IconButton(

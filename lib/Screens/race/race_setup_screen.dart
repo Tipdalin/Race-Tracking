@@ -186,7 +186,7 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
           const SizedBox(height: 8),
           Text(
             race.type.toUpperCase(),
-            style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+            style: TextStyle(fontSize: 16, color: Colors.white),
           ),
           const SizedBox(height: 8),
           Chip(
@@ -288,48 +288,61 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
     return Expanded(
       child: Column(
         children: [
-          Consumer<ParticipantProvider>(
-            builder: (context, participantProvider, child) {
-              final participantCount = participantProvider.participants.length;
-              return Container(
+          Column(
+            children: [
+              Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 8,
                 ),
                 color: Colors.blue[100],
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Participants',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+              ),
+              Consumer<ParticipantProvider>(
+                builder: (context, participantProvider, child) {
+                  final participantCount =
+                      participantProvider.participants.length;
+                  return Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        'Total: $participantCount',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                    color: Colors.blue[100],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Participants',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            'Total: $participantCount',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            },
+                  );
+                },
+              ),
+            ],
           ),
           Expanded(child: _buildParticipantsList()),
         ],
