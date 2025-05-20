@@ -141,6 +141,30 @@ class ParticipantProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> startAllParticipants(String raceId) async {
+    try {
+      final currentTime = DateTime.now();
+
+      // Get all participants for this race
+      final raceParticipants =
+          _participants.where((p) => p.raceId == raceId).toList();
+
+      // Start all participants simultaneously
+      for (final participant in raceParticipants) {
+        await _participantRepository.startParticipant(
+          participant.id,
+          currentTime,
+        );
+      }
+
+      return true;
+    } catch (e) {
+      _error = e.toString();
+      notifyListeners();
+      return false;
+    }
+  }
+
   Future<Participant?> getParticipantByBibNumber(
     String bibNumber,
     String raceId,

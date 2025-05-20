@@ -111,6 +111,20 @@ class FirebaseParticipantRepository implements ParticipantRepository {
     }
   }
 
+  Future<void> startParticipant(
+    String participantId,
+    DateTime startTime,
+  ) async {
+    try {
+      await _participantsCollection.doc(participantId).update({
+        'start_time': startTime.toIso8601String(),
+        'status': 'started', // or whatever status field you use
+      });
+    } catch (e) {
+      throw Exception('Failed to start participant: $e');
+    }
+  }
+
   @override
   Stream<List<Participant>> watchParticipantsByRaceId(String raceId) {
     return _participantsCollection

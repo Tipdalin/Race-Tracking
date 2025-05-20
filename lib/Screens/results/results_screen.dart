@@ -39,6 +39,82 @@ class _ResultsScreenState extends State<ResultsScreen> {
     segmentTimeProvider.watchSegmentTimesByRaceId(widget.race.id);
   }
 
+  // Calculate total race time for a participant
+  Duration? _calculateParticipantTotalTime(
+    String participantId,
+    SegmentTimeProvider segmentTimeProvider,
+  ) {
+    Duration totalDuration = Duration.zero;
+    bool hasAnyCompletedSegment = false;
+
+    for (final segment in widget.race.segments) {
+      final segmentTime = segmentTimeProvider.getParticipantSegmentTime(
+        participantId,
+        segment.name,
+      );
+
+      if (segmentTime?.isCompleted == true && segmentTime?.duration != null) {
+        totalDuration += segmentTime!.duration!;
+        hasAnyCompletedSegment = true;
+      } else {
+        // If any segment is not completed, return null (incomplete race)
+        return null;
+      }
+    }
+
+    return hasAnyCompletedSegment ? totalDuration : null;
+  }
+
+  // Check if participant completed the entire race
+  bool _isRaceCompleted(
+    String participantId,
+    SegmentTimeProvider segmentTimeProvider,
+  ) {
+    for (final segment in widget.race.segments) {
+      final segmentTime = segmentTimeProvider.getParticipantSegmentTime(
+        participantId,
+        segment.name,
+      );
+
+      if (segmentTime?.isCompleted != true) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  // Get participant's current segment
+  String _getCurrentSegment(
+    String participantId,
+    SegmentTimeProvider segmentTimeProvider,
+  ) {
+    for (final segment in widget.race.segments) {
+      final segmentTime = segmentTimeProvider.getParticipantSegmentTime(
+        participantId,
+        segment.name,
+      );
+
+      // If started but not completed, this is current segment
+      if (segmentTime?.startTime != null && segmentTime?.isCompleted != true) {
+        return segment.name;
+      }
+    }
+
+    // If no current segment, find first not started
+    for (final segment in widget.race.segments) {
+      final segmentTime = segmentTimeProvider.getParticipantSegmentTime(
+        participantId,
+        segment.name,
+      );
+
+      if (segmentTime?.startTime == null) {
+        return segment.name;
+      }
+    }
+
+    return 'Finished';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,11 +153,21 @@ class _ResultsScreenState extends State<ResultsScreen> {
                       children: [
                         Icon(Icons.sort_by_alpha),
                         SizedBox(width: 8),
-                        Text('Sort by Current Segment'),
+                        Text('Sort by Current Progress'),
                       ],
                     ),
                   ),
                   const PopupMenuDivider(),
+                  const PopupMenuItem(
+                    value: 'live_update',
+                    child: Row(
+                      children: [
+                        Icon(Icons.refresh),
+                        SizedBox(width: 8),
+                        Text('Live Updates'),
+                      ],
+                    ),
+                  ),
                   const PopupMenuItem(
                     value: 'export',
                     child: Row(
@@ -110,7 +196,6 @@ class _ResultsScreenState extends State<ResultsScreen> {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
-      //color: Theme.of(context).primaryColor.withOpacity(0.1),
       color: Colors.blue[100],
       child: Column(
         children: [
@@ -127,7 +212,6 @@ class _ResultsScreenState extends State<ResultsScreen> {
           Chip(
             label: Text(widget.race.statusString),
             backgroundColor: _getStatusColor(widget.race.status),
-            // color: MaterialStateProperty.all(Colors.blue[100]),
           ),
         ],
       ),
@@ -138,18 +222,40 @@ class _ResultsScreenState extends State<ResultsScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       color: Colors.blue[100],
-      child: Row(
-        children: [
-          const Text(
-            'Results',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const Spacer(),
-          Text(
-            _sortByOverallTime ? 'Overall Time' : 'Current Segment',
-            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-          ),
-        ],
+      child: Consumer<SegmentTimeProvider>(
+        builder: (context, segmentTimeProvider, child) {
+          final totalParticipants =
+              context.read<ParticipantProvider>().participants.length;
+          final finishedParticipants =
+              context
+                  .read<ParticipantProvider>()
+                  .participants
+                  .where((p) => _isRaceCompleted(p.id, segmentTimeProvider))
+                  .length;
+
+          return Row(
+            children: [
+              const Text(
+                'Results',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const Spacer(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    _sortByOverallTime ? 'Overall Time' : 'Current Progress',
+                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                  ),
+                  Text(
+                    'Finished: $finishedParticipants/$totalParticipants',
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -157,7 +263,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
   Widget _buildResultsList() {
     return Consumer2<ParticipantProvider, SegmentTimeProvider>(
       builder: (context, participantProvider, segmentTimeProvider, child) {
-        if (participantProvider.isLoading || segmentTimeProvider.isLoading) {
+        if (participantProvider.isLoading) {
           return const LoadingWidget(message: 'Loading results...');
         }
 
@@ -203,37 +309,73 @@ class _ResultsScreenState extends State<ResultsScreen> {
   ) {
     return List<Participant>.from(participants)..sort((a, b) {
       if (_sortByOverallTime) {
-        final totalTimeA = segmentTimeProvider.getParticipantTotalTime(a.id);
-        final totalTimeB = segmentTimeProvider.getParticipantTotalTime(b.id);
-
-        if (totalTimeA == null && totalTimeB == null) return 0;
-        if (totalTimeA == null) return 1;
-        if (totalTimeB == null) return -1;
-
-        return totalTimeA.compareTo(totalTimeB);
-      } else {
-        // Sort by current segment (for simplicity, use first segment)
-        final firstSegment =
-            widget.race.segments.isNotEmpty
-                ? widget.race.segments.first.name
-                : null;
-        if (firstSegment == null) return 0;
-
-        final segmentTimeA = segmentTimeProvider.getParticipantSegmentTime(
+        final totalTimeA = _calculateParticipantTotalTime(
           a.id,
-          firstSegment,
+          segmentTimeProvider,
         );
-        final segmentTimeB = segmentTimeProvider.getParticipantSegmentTime(
+        final totalTimeB = _calculateParticipantTotalTime(
           b.id,
-          firstSegment,
+          segmentTimeProvider,
         );
 
-        if (segmentTimeA?.duration == null && segmentTimeB?.duration == null)
-          return 0;
-        if (segmentTimeA?.duration == null) return 1;
-        if (segmentTimeB?.duration == null) return -1;
+        // Completed participants first
+        if (totalTimeA == null && totalTimeB != null) return 1;
+        if (totalTimeA != null && totalTimeB == null) return -1;
+        if (totalTimeA == null && totalTimeB == null) return 0;
 
-        return segmentTimeA!.duration!.compareTo(segmentTimeB!.duration!);
+        return totalTimeA!.compareTo(totalTimeB!);
+      } else {
+        // Sort by progress (number of completed segments)
+        final completedA =
+            widget.race.segments
+                .where(
+                  (s) =>
+                      segmentTimeProvider
+                          .getParticipantSegmentTime(a.id, s.name)
+                          ?.isCompleted ==
+                      true,
+                )
+                .length;
+        final completedB =
+            widget.race.segments
+                .where(
+                  (s) =>
+                      segmentTimeProvider
+                          .getParticipantSegmentTime(b.id, s.name)
+                          ?.isCompleted ==
+                      true,
+                )
+                .length;
+
+        if (completedA != completedB) {
+          return completedB.compareTo(completedA); // More completed first
+        }
+
+        // If same completion level, sort by total time of completed segments
+        Duration totalA = Duration.zero;
+        Duration totalB = Duration.zero;
+
+        for (final segment in widget.race.segments) {
+          final segmentTimeA = segmentTimeProvider.getParticipantSegmentTime(
+            a.id,
+            segment.name,
+          );
+          final segmentTimeB = segmentTimeProvider.getParticipantSegmentTime(
+            b.id,
+            segment.name,
+          );
+
+          if (segmentTimeA?.isCompleted == true &&
+              segmentTimeA?.duration != null) {
+            totalA += segmentTimeA!.duration!;
+          }
+          if (segmentTimeB?.isCompleted == true &&
+              segmentTimeB?.duration != null) {
+            totalB += segmentTimeB!.duration!;
+          }
+        }
+
+        return totalA.compareTo(totalB);
       }
     });
   }
@@ -246,25 +388,49 @@ class _ResultsScreenState extends State<ResultsScreen> {
     final participantTimes = segmentTimeProvider.getParticipantSegmentTimes(
       participant.id,
     );
-    final totalTime = segmentTimeProvider.getParticipantTotalTime(
+    final totalTime = _calculateParticipantTotalTime(
       participant.id,
+      segmentTimeProvider,
+    );
+    final isCompleted = _isRaceCompleted(participant.id, segmentTimeProvider);
+    final currentSegment = _getCurrentSegment(
+      participant.id,
+      segmentTimeProvider,
     );
 
     return Card(
+      elevation: isCompleted ? 4 : 2,
+      color: isCompleted ? Colors.purple.shade50 : null,
       child: ExpansionTile(
         leading: CircleAvatar(
-          backgroundColor: _getPositionColor(position),
-          child: Text(
-            position.toString(),
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
+          backgroundColor:
+              isCompleted ? _getPositionColor(position) : Colors.grey,
+          child:
+              isCompleted
+                  ? Text(
+                    position.toString(),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  )
+                  : const Icon(Icons.timer, color: Colors.white),
         ),
-        title: Text(
-          participant.fullName,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+        title: Row(
+          children: [
+            Expanded(
+              child: Text(
+                participant.fullName,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            if (isCompleted)
+              const Icon(
+                Icons.emoji_events,
+                color: Colors.blueAccent,
+                size: 20,
+              ),
+          ],
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -277,6 +443,14 @@ class _ResultsScreenState extends State<ResultsScreen> {
                   fontWeight: FontWeight.bold,
                   color: Colors.green,
                 ),
+              )
+            else
+              Text(
+                'Current: ${_formatSegmentName(currentSegment)}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.orange[700],
+                ),
               ),
           ],
         ),
@@ -287,7 +461,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
               border: TableBorder.all(color: Colors.grey[300]!),
               children: [
                 const TableRow(
-                  decoration: BoxDecoration(color: Colors.grey),
+                  decoration: BoxDecoration(color: Colors.blue),
                   children: [
                     TableCell(
                       child: Padding(
@@ -318,7 +492,8 @@ class _ResultsScreenState extends State<ResultsScreen> {
                     ),
                   ],
                 ),
-                ...widget.race.segments.map((segment) {
+                ...widget.race.segments.asMap().entries.map((entry) {
+                  final segment = entry.value;
                   final segmentTime = participantTimes.firstWhere(
                     (st) => st.segmentName == segment.name,
                     orElse:
@@ -332,12 +507,29 @@ class _ResultsScreenState extends State<ResultsScreen> {
                         ),
                   );
 
+                  final isCurrentSegment =
+                      currentSegment == segment.name && !isCompleted;
+
                   return TableRow(
+                    decoration: BoxDecoration(
+                      color: isCurrentSegment ? Colors.orange.shade50 : null,
+                    ),
                     children: [
                       TableCell(
                         child: Padding(
                           padding: const EdgeInsets.all(8),
-                          child: Text(_formatSegmentName(segment.name)),
+                          child: Row(
+                            children: [
+                              Text(_formatSegmentName(segment.name)),
+                              if (isCurrentSegment) const SizedBox(width: 4),
+                              if (isCurrentSegment)
+                                const Icon(
+                                  Icons.arrow_forward,
+                                  size: 16,
+                                  color: Colors.orange,
+                                ),
+                            ],
+                          ),
                         ),
                       ),
                       TableCell(
@@ -347,13 +539,26 @@ class _ResultsScreenState extends State<ResultsScreen> {
                             segmentTime.duration != null
                                 ? _formatDuration(segmentTime.duration!)
                                 : '--:--:--',
+                            style: TextStyle(
+                              fontWeight:
+                                  segmentTime.isCompleted
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                              color:
+                                  segmentTime.isCompleted
+                                      ? Colors.green[700]
+                                      : null,
+                            ),
                           ),
                         ),
                       ),
                       TableCell(
                         child: Padding(
                           padding: const EdgeInsets.all(8),
-                          child: _buildStatusIcon(segmentTime),
+                          child: _buildStatusIcon(
+                            segmentTime,
+                            isCurrentSegment,
+                          ),
                         ),
                       ),
                     ],
@@ -362,15 +567,39 @@ class _ResultsScreenState extends State<ResultsScreen> {
               ],
             ),
           ),
+          if (totalTime != null)
+            Container(
+              margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.blueGrey),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.emoji_events, color: Colors.red),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Race Complete! Total Time: ${_formatDuration(totalTime)}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
     );
   }
 
-  Widget _buildStatusIcon(SegmentTime segmentTime) {
+  Widget _buildStatusIcon(SegmentTime segmentTime, bool isCurrentSegment) {
     if (segmentTime.isCompleted) {
       return const Icon(Icons.check_circle, color: Colors.green);
-    } else if (segmentTime.startTime != null) {
+    } else if (segmentTime.startTime != null || isCurrentSegment) {
       return const Icon(Icons.timer, color: Colors.orange);
     } else {
       return const Icon(Icons.remove_circle_outline, color: Colors.grey);
@@ -391,11 +620,11 @@ class _ResultsScreenState extends State<ResultsScreen> {
   Color _getPositionColor(int position) {
     switch (position) {
       case 1:
-        return const Color.fromARGB(255, 255, 179, 0)!; // Gold
+        return const Color(0xFFFFD700); // Gold
       case 2:
-        return const Color.fromARGB(255, 255, 0, 0)!; // Silver
+        return const Color(0xFFC0C0C0); // Silver
       case 3:
-        return const Color.fromARGB(255, 93, 189, 10)!; // Bronze
+        return const Color(0xFFCD7F32); // Bronze
       default:
         return Theme.of(context).primaryColor;
     }
@@ -429,6 +658,15 @@ class _ResultsScreenState extends State<ResultsScreen> {
       case 'sort_segment':
         setState(() => _sortByOverallTime = false);
         break;
+      case 'live_update':
+        _initializeData(); // Refresh data
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Results refreshed!'),
+            duration: Duration(seconds: 1),
+          ),
+        );
+        break;
       case 'export':
         _exportResults();
         break;
@@ -436,14 +674,18 @@ class _ResultsScreenState extends State<ResultsScreen> {
   }
 
   void _exportResults() {
-    // Simple placeholder for export functionality
     showDialog(
       context: context,
       builder:
           (context) => AlertDialog(
             title: const Text('Export Results'),
             content: const Text(
-              'Export functionality will be implemented here.\n\nThis would typically save results as CSV or PDF.',
+              'Export functionality will be implemented here.\n\n'
+              'This would typically save results as CSV or PDF with:\n'
+              '• Participant rankings\n'
+              '• Segment times\n'
+              '• Total times\n'
+              '• Current progress',
             ),
             actions: [
               TextButton(
